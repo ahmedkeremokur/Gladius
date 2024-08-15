@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,10 @@ public class Arena : MonoBehaviour
 
     public int enemyAttack, enemyDef, enemyHp, enemyStr, enemyVit, enemyDex, enemyAgi, enemyChar, enemyInt, enemyNo,
         characterDamage;
+
+    public int characterCritChance, enemyCritChance,    //Dexterity - Agility (Dexterity for crit chance. Agility for reduce get crit damage)
+        characterDoubleAttackChance, enemyDoubleAttackChance;   //Charisma - Intelligence (Charisma for double attack chance. Intelligence for avoid)
+
 
     void Start()
     {
@@ -58,6 +63,10 @@ public class Arena : MonoBehaviour
             enemyDef = Random.Range(2, 5);
             enemyHp = Random.Range(50, 80);
             enemyStr = Random.Range(1, 3);
+            enemyDex = Random.Range(1, 3);
+            enemyAgi = Random.Range(1, 3);
+            enemyChar = Random.Range(1, 3);
+            enemyInt = Random.Range(1, 3);
             //enemyVit = Random.Range(1, 3);
             /*enemyDex = Random.Range(1, 3);
             enemyAgi = Random.Range(1, 3);
@@ -106,16 +115,51 @@ public class Arena : MonoBehaviour
     {
         int characterDamage = CalculateDamage(character.attack, enemyDef, character.str);
         int enemyDamage = CalculateDamage(enemyAttack, character.def, enemyStr);
+        float characterCritChance = CalculateCritChance(character.dex, enemyAgi);
+        float enemyCritChance = CalculateCritChance(enemyDex, character.agi);
+        float characterDoubleChance = CalculateDoubleChance(character.charisma, enemyInt);
+        float enemyDoubleChance = CalculateDoubleChance(enemyChar, character.intelligence);
 
         Debug.Log($"Starting Fight: Character HP = {character.hp}, Enemy HP = {enemyHp}, Character Damage = {characterDamage}, Enemy Damage = {enemyDamage}");
 
 
             for (int i = 0; i < 3; i++)
             {
-                //Character attacks
+            //Character attacks
+            int critRandom = Random.Range(0, 100);
+            int doubleRandom = Random.Range(0, 100);
+            Debug.Log($"critRandom: {critRandom}, character crit chance: {characterCritChance}");
+            
+            if (characterDoubleChance * 100 >= doubleRandom)
+            {
+                /*for (int a = 0, a < 2; a++)
+                {
+                    if (characterCritChance * 100 >= critRandom)
+                    {
+                        enemyHp -= characterDamage * 2;
+                        Debug.Log("You made a Crit Damage!!");
+                    }
+                    else
+                    {
+                        enemyHp -= characterDamage;
+                        Debug.Log("You couldn't made a Crit Damage ");
+                    }
+                    Debug.LogError("Double Attack turn:" + i);
+                }*/
+            }
+            if (characterCritChance*100 >= critRandom)
+            {
+                enemyHp -= characterDamage * 2;
+                Debug.Log("You made a Crit Damage!!");
+            }
+            else
+            {
                 enemyHp -= characterDamage;
-                //Debug.Log($"Character attacks: Enemy HP = {enemyHp}");
-                if (enemyHp <= 0)
+                Debug.Log("You couldn't made a Crit Damage ");
+            }
+                
+            //Debug.Log($"Character attacks: Enemy HP = {enemyHp}");
+            if (enemyHp <= 0)
                 {
                     arenaResultBool = true;
                     ArenaResult();
@@ -126,7 +170,7 @@ public class Arena : MonoBehaviour
                 //Enemy attacks
                 character.hp -= enemyDamage;
                 //Debug.Log($"Enemy attacks: Character HP = {character.hp}");
-                if (character.hp <= 0)
+            if (character.hp <= 0)
                 {
                     arenaResultBool = false;
                     ArenaResult();
@@ -152,6 +196,22 @@ public class Arena : MonoBehaviour
         Debug.Log($"CalculateDamage: Attack = {attack}, Defence = {defence}, Strength = {strength}, Damage = {damage}");
         return damage;
 
+    }
+
+    private float CalculateCritChance(int dex, int agility)     // 0 <= critChance < 1
+    {
+        int critCode = dex - agility;
+        float critChance = 1f - Mathf.Exp(-critCode/50f);
+        Debug.Log($"Calculate Dexterity = {dex}, Agility = {agility}, CritChance = {critChance}");
+        return critChance;
+    }
+
+    private float CalculateDoubleChance(int charisma, int intelligence)
+    {
+        int doubleCode = charisma - intelligence;
+        float doubleChance = 1f - Mathf.Exp(-doubleCode / 50f);
+        Debug.Log($"Calculate Charisma = {charisma}, Intelligence = {intelligence}, CritChance = {doubleChance}");
+        return doubleChance;
     }
 
     public void ArenaResult()
