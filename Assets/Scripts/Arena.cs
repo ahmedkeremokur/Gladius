@@ -22,7 +22,7 @@ public class Arena : MonoBehaviour
     public int characterCritChance, enemyCritChance,    //Dexterity - Agility (Dexterity for crit chance. Agility for reduce get crit damage)
         characterDoubleAttackChance, enemyDoubleAttackChance;   //Charisma - Intelligence (Charisma for double attack chance. Intelligence for avoid)
 
-    public TextMeshProUGUI round1Text, round2Text, round3Text;
+    public TextMeshProUGUI round1Text, round2Text, round3Text, fightResultText;
     
     private StringBuilder round1Log = new StringBuilder(),  //Round information
         round2Log = new StringBuilder(),
@@ -33,6 +33,7 @@ public class Arena : MonoBehaviour
     {
         character = FindObjectOfType<Character>();
         controller = FindObjectOfType<Controller>();
+        ClearFightLog();
     }
 
     public void Attack1()
@@ -129,6 +130,11 @@ public class Arena : MonoBehaviour
 
     public void Fight()
     {
+        ClearFightLog();
+
+        int characterInitialHp = character.hp;
+        int enemyInitialHp = enemyHp;
+
         int characterDamage = CalculateDamage(character.attack, enemyDef, character.str);
         int enemyDamage = CalculateDamage(enemyAttack, character.def, enemyStr);
         float characterCritChance = CalculateCritChance(character.dex, enemyAgi);
@@ -151,18 +157,20 @@ public class Arena : MonoBehaviour
             int critRandom = Random.Range(0, 100);
             int doubleRandom = Random.Range(0, 100);
             Debug.Log($"critRandom: {critRandom}, character crit chance: {characterCritChance}");
+
             
-            if (characterDoubleChance * 100 >= doubleRandom)    //if double attack
+            if (characterDoubleChance * 100 >= doubleRandom)                    //if double attack
             {
                 currentRoundLog.AppendLine("Double Attacks: Character");
                 for (int j = 0; j < 2; j++)
                 {
-                    if (characterCritChance * 100 >= critRandom)    //if critical hit in double attack
+                    if (characterCritChance * 100 >= critRandom)                //if critical hit in double attack
                     {
                         enemyHp -= characterDamage * 2;
+                        currentRoundLog.AppendLine("Critical Attacks: Character");
                         Debug.Log("You made a Crit Damage!!");
                     }
-                    else                                            //no critical in double
+                    else                                                        //no critical in double
                     {
                         enemyHp -= characterDamage;
                         Debug.Log("You couldn't made a Crit Damage ");
@@ -171,27 +179,34 @@ public class Arena : MonoBehaviour
                 }
             }
 
-            else if(characterDoubleChance * 100 < doubleRandom) //No double attack
+            else if(characterDoubleChance * 100 < doubleRandom)                 //No double attack
             {
-                if (characterCritChance * 100 >= critRandom)    //if critical in no double
+                if (characterCritChance * 100 >= critRandom)                    //if critical in no double
                 {
                     enemyHp -= characterDamage * 2;
+                    currentRoundLog.AppendLine("Critical Attacks: Character");
                     Debug.Log("You made a Crit Damage!!");
                 }
-                else                                            //no critical in no double
+                else                                                            //no critical in no double
                 {
                     enemyHp -= characterDamage;
                     Debug.Log("You couldn't made a Crit Damage ");
                 }
             }
-                                
+
+            currentRoundLog.AppendLine($"Character Attack, damage: {characterDamage}, Enemy HP: {enemyHp}");
+
             if (enemyHp <= 0)
-                {
-                    arenaResultBool = true;
-                    ArenaResult();
-                    Debug.Log("Enemy defeated, Character wins");
-                    return;
-                }
+            {
+                currentRoundLog.AppendLine("Character Won this round!");
+                DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
+                UpdateFightLog();
+
+                arenaResultBool = true;
+                ArenaResult();
+                Debug.Log("Enemy defeated, Character wins");
+                return;
+            }
 
 
 
@@ -203,16 +218,19 @@ public class Arena : MonoBehaviour
 
             if (enemyDoubleChance * 100 >= doubleRandomEnemy)                            //if double attack
             {
+                currentRoundLog.AppendLine("Double Attacks: Enemy");
+
                 for (int j = 0; j < 2; j++)
                 {
                     if (enemyCritChance * 100 >= critRandomEnemy)                       //if critical hit
                     {
-                        enemyHp -= enemyDamage * 2;
+                        character.hp -= enemyDamage * 2;
+                        currentRoundLog.AppendLine("Critical Attacks: Enemy");
                         Debug.Log("You made a Crit Damage!!");
                     }
                     else                                                                //No critical in double     
                     {
-                        enemyHp -= enemyDamage;
+                        character.hp -= enemyDamage;
                         Debug.Log("You couldn't made a Crit Damage ");
                     }
                     Debug.LogError("Double Attack turn:" + j);
@@ -223,26 +241,32 @@ public class Arena : MonoBehaviour
             {
                 if (enemyCritChance * 100 >= critRandomEnemy)                           //if critical in no double
                 {
-                    enemyHp -= enemyDamage * 2;
+                    character.hp -= enemyDamage * 2;
+                    currentRoundLog.AppendLine("Critical Attacks: Enemy");
                     Debug.Log("You made a Crit Damage!!");
                 }
                 else                                                                    //no critical in no double
                 {
-                    enemyHp -= enemyDamage;
+                    character.hp -= enemyDamage;
                     Debug.Log("You couldn't made a Crit Damage ");
                 }
             }
 
+            currentRoundLog.AppendLine($"Enemy Attack, damage: {enemyDamage}, Character HP: {character.hp}");
 
             if (character.hp <= 0)
-                {
-                    arenaResultBool = false;
-                    ArenaResult();
-                    Debug.Log("Character defeated, Enemy wins");
-                    return;
-                }
+            {
+                currentRoundLog.AppendLine("Enemy Won this round!");
+                DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
+                UpdateFightLog();
+                arenaResultBool = false;
+                ArenaResult();
+                Debug.Log("Character defeated, Enemy wins");
+                return;
+            }
 
-                Debug.Log("Character Hp:" + character.hp + " / Enemy Hp: " + enemyHp);
+            currentRoundLog.AppendLine("---- Round End ----\n");
+            Debug.Log("Character Hp:" + character.hp + " / Enemy Hp: " + enemyHp);
 
             }
 
@@ -251,6 +275,8 @@ public class Arena : MonoBehaviour
         ArenaResult();
 
         character.UpdateStatUI();
+        DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
+        UpdateFightLog();
     }
 
     private int CalculateDamage(int attack, int defence, int strength)
@@ -292,5 +318,32 @@ public class Arena : MonoBehaviour
         round1Text.text = round1Log.ToString();
         round2Text.text = round2Log.ToString();
         round3Text.text = round3Log.ToString();
+    }
+
+    private void ClearFightLog()
+    {
+        round1Log.Clear();
+        round2Log.Clear();
+        round3Log.Clear();
+
+        round1Text.text = "";
+        round2Text.text = "";
+        round3Text.text = "";
+        fightResultText.text = "";
+    }
+
+    private void DisplayFightResult(int characterInitialHp, int characterFinalHp, int enemyInitialHp, int enemyFinalHp)
+    {
+        float characterHpRatio = (float)characterFinalHp / characterInitialHp;
+        float enemyHpRatio = (float)enemyFinalHp / enemyInitialHp;
+
+        if (characterHpRatio >= enemyHpRatio)
+        {
+            fightResultText.text = "You Win!";
+        }
+        else
+        {
+            fightResultText.text = "You Lose!";
+        }
     }
 }
