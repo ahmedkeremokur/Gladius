@@ -20,8 +20,9 @@ public class Arena : MonoBehaviour
         characterDamage;
 
     public int characterCritChance, enemyCritChance,    //Dexterity - Agility (Dexterity for crit chance. Agility for reduce get crit damage)
-        characterDoubleAttackChance, enemyDoubleAttackChance;   //Charisma - Intelligence (Charisma for double attack chance. Intelligence for avoid)
-
+        characterDoubleAttackChance, enemyDoubleAttackChance,   //Charisma - Intelligence (Charisma for double attack chance. Intelligence for avoid)
+        earnedXp, earnedGold;   
+    
     public TextMeshProUGUI round1Text, round2Text, round3Text, fightResultText;
     
     private StringBuilder round1Log = new StringBuilder(),  //Round information
@@ -307,10 +308,33 @@ public class Arena : MonoBehaviour
 
     public void ArenaResult()
     {
+        //---- Gold ----
         if (!arenaResultBool)
-            controller.gold += Random.Range(5 * enemyNo * enemyNo, 10 * enemyNo * enemyNo);
+        {
+            earnedGold = Random.Range(2 * enemyNo * enemyNo, 30 * enemyNo * enemyNo);
+            controller.gold += earnedGold;
+        }
+            
         else if (arenaResultBool)
-            controller.gold += Random.Range(50 * enemyNo * enemyNo, 100 * enemyNo * enemyNo);
+        {
+            earnedGold = Random.Range(20 * enemyNo * enemyNo, 30 * enemyNo * enemyNo);
+            controller.gold += earnedGold;
+        }
+        
+
+        //---- Exp ----
+        if (!arenaResultBool)
+        {
+            earnedXp = Random.Range(2 * enemyNo * enemyNo, 30 * enemyNo * enemyNo);
+            character.exp += earnedXp;
+        }
+            
+        else if (arenaResultBool)
+        {
+            earnedXp = Random.Range(20 * enemyNo * enemyNo, 30 * enemyNo * enemyNo);
+            character.exp += earnedXp;
+        }
+            
     }
 
     private void UpdateFightLog()
@@ -339,11 +363,11 @@ public class Arena : MonoBehaviour
 
         if (characterHpRatio >= enemyHpRatio)
         {
-            fightResultText.text = "You Win!";
+            fightResultText.text = "You Won! You earned " + earnedXp + " exp and " + earnedGold + " gold.";
         }
         else
         {
-            fightResultText.text = "You Lose!";
+            fightResultText.text = "You Lose! You earned " + earnedXp + " exp and " + earnedGold + " gold."; ;
         }
     }
 }
