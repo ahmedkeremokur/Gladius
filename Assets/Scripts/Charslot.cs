@@ -94,7 +94,7 @@ public class Charslot : MonoBehaviour ,
                     else
                     {
                         Debug.LogWarning("Slot is empty, placing item");
-                        if (env.dragItem.itemType == Item.ItemType.Consumable)
+                        if (env.dragItem.itemType == Item.ItemType.Consumable && character.hp <= (character.maxHp - 20))
                         {
                             Debug.LogWarning("Item type is consumable");
 
@@ -104,12 +104,24 @@ public class Charslot : MonoBehaviour ,
 
                             Debug.Log($"Character HP after: {character.hp}");
 
-                            env.HideDragItem();                               
+                            
+                            if (env.dragItem.itemValue == 1)
+                            {
+                                env.HideDragItem();
                                 env.DeleteItem(env.dragItem);
                                 character.UpdateStatUI();
-                                Debug.LogWarning("Drink Potions");                         
+                                Debug.LogWarning("Drink Potions");
+                            }
+
+                            else if (env.dragItem.itemValue > 1)
+                            {
+                                env.dragItem.itemValue--;
+                                character.UpdateStatUI();
+                                Debug.LogWarning("Drink Potions");
+                            }
+                                                     
                         }
-                        else
+                        else if (env.dragItem.itemType != Item.ItemType.Consumable)
                         {
                             item = env.dragItem;
                             env.HideDragItem();
