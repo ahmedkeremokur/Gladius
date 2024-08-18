@@ -5,6 +5,7 @@ using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 
 public class Arena : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class Arena : MonoBehaviour
     public Controller controller;
     public Button enemy1Attack, enemy2Attack, enemy3Attack, enemy4Attack;
 
-    public GameObject arenaResultObject, winResult, loseResult;
+    public GameObject arenaResultObject, winResult, loseResult, noHpWarning;
 
     public bool arenaResultBool;
 
@@ -35,101 +36,100 @@ public class Arena : MonoBehaviour
         character = FindObjectOfType<Character>();
         controller = FindObjectOfType<Controller>();
         ClearFightLog();
+
+        GameObject noHpWarning = GameObject.Find("No Hp 4 Arena");
+        noHpWarning.SetActive(false);
     }
 
-    public void Attack1()
+    /*
+    public enum EnemyType
     {
-        enemyNo = 1;
-        Enemy();
+        Enemy1 = 1,
+        Enemy2 = 2,
+        Enemy3 = 3,
+        Enemy4 = 4
+    }
+
+
+    public void Attack(int enemyNumber)
+    {
+        EnemyType enemyType = (EnemyType)enemyNumber;
+        enemyNo = (int)enemyType;
+        SetEnemyStats(enemyType);
         Fight();
-        Debug.LogWarning("Arena Result: " + arenaResultBool + 
-            " Character Attack: " + character.attack);
     }
-
-    public void Attack2()
+    private void SetEnemyStats(EnemyType enemyType)
     {
-        enemyNo = 2;
-        Enemy();
-        Fight();
-        Debug.LogWarning("Arena Result: " + arenaResultBool +
-            " Character Attack: " + character.attack);
-    }
-
-    public void Attack3()
-    {
-        enemyNo = 3;
-        Enemy();
-        Fight();
-        Debug.LogWarning("Arena Result: " + arenaResultBool +
-            " Character Attack: " + character.attack);
-    }
-
-    public void Attack4()
-    {
-        enemyNo = 4;
-        Enemy();
-        Fight();
-        Debug.LogWarning("Arena Result: " + arenaResultBool +
-            " Character Attack: " + character.attack);
-    }
-
-    public void CharacterStats()
-    {
-
-    }
-    public void Enemy()
-    {
-        if (enemyNo == 1)
+        switch (enemyType)
         {
-            enemyAttack = Random.Range(2, 5);
-            enemyDef = Random.Range(2, 5);
-            enemyHp = Random.Range(50, 80);
-            enemyStr = Random.Range(1, 3);
-            enemyDex = Random.Range(1, 3);
-            enemyAgi = Random.Range(1, 3);
-            enemyChar = Random.Range(1, 3);
-            enemyInt = Random.Range(1, 3);
+            case EnemyType.Enemy1:
+                SetEnemyAttributes(2, 5, 50, 80, 1, 3);
+                break;
+                
+            case EnemyType.Enemy2:
+                SetEnemyAttributes(8, 12, 150, 200, 5, 7);
+                break;
+            
+            case EnemyType.Enemy3:
+                SetEnemyAttributes(30,40,380,420,15,20);
+                break;
 
-        }
-        else if (enemyNo == 2)
-        {
-            enemyAttack = Random.Range(8, 12);
-            enemyDef = Random.Range(8, 12);
-            enemyHp = Random.Range(150, 200);
-            enemyStr = Random.Range(5, 7);
-            enemyVit = Random.Range(5, 7);
-            enemyDex = Random.Range(5, 7);
-            enemyAgi = Random.Range(5, 7);
-            enemyChar = Random.Range(5, 7);
-            enemyInt = Random.Range(5, 7);
-        }
-        else if (enemyNo == 3)
-        {
-            enemyAttack = Random.Range(30, 40);
-            enemyDef = Random.Range(30, 40);
-            enemyHp = Random.Range(380, 420);
-            enemyStr = Random.Range(15, 20);
-            enemyVit = Random.Range(15, 20);
-            enemyDex = Random.Range(15, 20);
-            enemyAgi = Random.Range(15, 20);
-            enemyChar = Random.Range(15, 20);
-            enemyInt = Random.Range(15, 20);
-        }
-        else if (enemyNo == 4)
-        {
-            enemyAttack = Random.Range(70, 90);
-            enemyDef = Random.Range(70, 90);
-            enemyHp = Random.Range(540, 780);
-            enemyStr = Random.Range(30, 40);
-            enemyVit = Random.Range(30, 40);
-            enemyDex = Random.Range(30, 40);
-            enemyAgi = Random.Range(30, 40);
-            enemyChar = Random.Range(30, 40);
-            enemyInt = Random.Range(30, 40);
+            case EnemyType.Enemy4:
+                SetEnemyAttributes(70,90,540,780,30,40);
+                break;
         }
     }
 
-    public void Fight()
+
+    */
+
+    public void Attack(int enemyNumber)
+    {   if (character.hp > 0)
+        {
+            enemyNo = (int)enemyNumber;
+            SetEnemyStats(enemyNumber);
+            Fight();
+            character.UpdateStatUI();
+        }
+        else
+            noHpWarning.SetActive(true);
+    }
+    private void SetEnemyStats(int enemyNumber)
+    {
+        switch (enemyNumber)
+        {
+            case 0:
+                SetEnemyAttributes(2, 5, 50, 80, 1, 3);
+                break;
+
+            case 1:
+                SetEnemyAttributes(8, 12, 150, 200, 5, 7);
+                break;
+
+            case 2:
+                SetEnemyAttributes(30, 40, 380, 420, 15, 20);
+                break;
+
+            case 3:
+                SetEnemyAttributes(70, 90, 540, 780, 30, 40);
+                break;
+        }
+    }
+
+    private void SetEnemyAttributes(int attackMin, int attackMax, int hpMin, int hpMax, int statMin, int statMax)
+    {
+        enemyAttack = Random.Range(attackMin, attackMax);
+        enemyDef = Random.Range(attackMin, attackMax);
+        enemyHp = Random.Range(hpMin, hpMax);
+        enemyStr = Random.Range(statMin, statMax);
+        enemyVit = Random.Range(statMin, statMax);
+        enemyDex = Random.Range(statMin, statMax);
+        enemyAgi = Random.Range(statMin, statMax);
+        enemyChar = Random.Range(statMin, statMax);
+        enemyInt = Random.Range(statMin, statMax);
+    }
+
+    private void Fight()
     {
         ClearFightLog();
 
@@ -370,4 +370,105 @@ public class Arena : MonoBehaviour
             fightResultText.text = "You Lose! You earned " + earnedXp + " exp and " + earnedGold + " gold."; ;
         }
     }
+
+    public void CloseNoHpForArena()
+    {
+        noHpWarning.SetActive(false);        
+    }
+
+    /*
+ public void Attack1()
+ {
+     enemyNo = 1;
+     Enemy();
+     Fight();
+     Debug.LogWarning("Arena Result: " + arenaResultBool + 
+         " Character Attack: " + character.attack);
+ }
+
+ public void Attack2()
+ {
+     enemyNo = 2;
+     Enemy();
+     Fight();
+     Debug.LogWarning("Arena Result: " + arenaResultBool +
+         " Character Attack: " + character.attack);
+ }
+
+ public void Attack3()
+ {
+     enemyNo = 3;
+     Enemy();
+     Fight();
+     Debug.LogWarning("Arena Result: " + arenaResultBool +
+         " Character Attack: " + character.attack);
+ }
+
+ public void Attack4()
+ {
+     enemyNo = 4;
+     Enemy();
+     Fight();
+     Debug.LogWarning("Arena Result: " + arenaResultBool +
+         " Character Attack: " + character.attack);
+ }
+ */
+
+    /* public void Enemy()
+     {
+         if (enemyNo == 1)
+         {
+             enemyAttack = Random.Range(2, 5);
+             enemyDef = Random.Range(2, 5);
+             enemyHp = Random.Range(50, 80);
+             enemyStr = Random.Range(1, 3);
+             enemyDex = Random.Range(1, 3);
+             enemyAgi = Random.Range(1, 3);
+             enemyChar = Random.Range(1, 3);
+             enemyInt = Random.Range(1, 3);
+
+         }
+         else if (enemyNo == 2)
+         {
+             enemyAttack = Random.Range(8, 12);
+             enemyDef = Random.Range(8, 12);
+             enemyHp = Random.Range(150, 200);
+             enemyStr = Random.Range(5, 7);
+             enemyVit = Random.Range(5, 7);
+             enemyDex = Random.Range(5, 7);
+             enemyAgi = Random.Range(5, 7);
+             enemyChar = Random.Range(5, 7);
+             enemyInt = Random.Range(5, 7);
+         }
+         else if (enemyNo == 3)
+         {
+             enemyAttack = Random.Range(30, 40);
+             enemyDef = Random.Range(30, 40);
+             enemyHp = Random.Range(380, 420);
+             enemyStr = Random.Range(15, 20);
+             enemyVit = Random.Range(15, 20);
+             enemyDex = Random.Range(15, 20);
+             enemyAgi = Random.Range(15, 20);
+             enemyChar = Random.Range(15, 20);
+             enemyInt = Random.Range(15, 20);
+         }
+         else if (enemyNo == 4)
+         {
+             enemyAttack = Random.Range(70, 90);
+             enemyDef = Random.Range(70, 90);
+             enemyHp = Random.Range(540, 780);
+             enemyStr = Random.Range(30, 40);
+             enemyVit = Random.Range(30, 40);
+             enemyDex = Random.Range(30, 40);
+             enemyAgi = Random.Range(30, 40);
+             enemyChar = Random.Range(30, 40);
+             enemyInt = Random.Range(30, 40);
+         }
+     }
+     */
+
+
+
+
+
 }
