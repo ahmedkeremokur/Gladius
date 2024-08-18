@@ -41,50 +41,11 @@ public class Arena : MonoBehaviour
         noHpWarning.SetActive(false);
     }
 
-    /*
-    public enum EnemyType
-    {
-        Enemy1 = 1,
-        Enemy2 = 2,
-        Enemy3 = 3,
-        Enemy4 = 4
-    }
-
+    
 
     public void Attack(int enemyNumber)
-    {
-        EnemyType enemyType = (EnemyType)enemyNumber;
-        enemyNo = (int)enemyType;
-        SetEnemyStats(enemyType);
-        Fight();
-    }
-    private void SetEnemyStats(EnemyType enemyType)
-    {
-        switch (enemyType)
-        {
-            case EnemyType.Enemy1:
-                SetEnemyAttributes(2, 5, 50, 80, 1, 3);
-                break;
-                
-            case EnemyType.Enemy2:
-                SetEnemyAttributes(8, 12, 150, 200, 5, 7);
-                break;
-            
-            case EnemyType.Enemy3:
-                SetEnemyAttributes(30,40,380,420,15,20);
-                break;
-
-            case EnemyType.Enemy4:
-                SetEnemyAttributes(70,90,540,780,30,40);
-                break;
-        }
-    }
-
-
-    */
-
-    public void Attack(int enemyNumber)
-    {   if (character.hp > 0)
+    {   
+        if (character.hp > 0)
         {
             enemyNo = (int)enemyNumber;
             SetEnemyStats(enemyNumber);
@@ -92,7 +53,8 @@ public class Arena : MonoBehaviour
             character.UpdateStatUI();
         }
         else
-            noHpWarning.SetActive(true);
+            noHpWarning.SetActive(true);            
+
     }
     private void SetEnemyStats(int enemyNumber)
     {
@@ -176,7 +138,7 @@ public class Arena : MonoBehaviour
                         enemyHp -= characterDamage;
                         Debug.Log("You couldn't made a Crit Damage ");
                     }
-                    Debug.LogError("Double Attack turn:" + j);
+                    Debug.Log("Double Attack turn:" + j);
                 }
             }
 
@@ -263,6 +225,7 @@ public class Arena : MonoBehaviour
                 arenaResultBool = false;
                 ArenaResult();
                 Debug.Log("Character defeated, Enemy wins");
+                character.hp = 0;
                 return;
             }
 
@@ -311,13 +274,13 @@ public class Arena : MonoBehaviour
         //---- Gold ----
         if (!arenaResultBool)
         {
-            earnedGold = Random.Range(2 * enemyNo * enemyNo, 30 * enemyNo * enemyNo);
+            earnedGold = Random.Range(2 * (enemyNo + 1) * (enemyNo + 1), 30 * (enemyNo + 1) * (enemyNo + 1));
             controller.gold += earnedGold;
         }
             
         else if (arenaResultBool)
         {
-            earnedGold = Random.Range(20 * enemyNo * enemyNo, 30 * enemyNo * enemyNo);
+            earnedGold = Random.Range(20 * (enemyNo + 1) * (enemyNo + 1), 30 * (enemyNo + 1) * (enemyNo + 1));
             controller.gold += earnedGold;
         }
         
@@ -325,13 +288,13 @@ public class Arena : MonoBehaviour
         //---- Exp ----
         if (!arenaResultBool)
         {
-            earnedXp = Random.Range(2 * enemyNo * enemyNo, 30 * enemyNo * enemyNo);
+            earnedXp = Random.Range(2 * (enemyNo + 1) * (enemyNo + 1), 30 * (enemyNo + 1) * (enemyNo + 1));
             character.exp += earnedXp;
         }
             
         else if (arenaResultBool)
         {
-            earnedXp = Random.Range(20 * enemyNo * enemyNo, 30 * enemyNo * enemyNo);
+            earnedXp = Random.Range(20 * (enemyNo + 1) * (enemyNo + 1), 30 * (enemyNo + 1) * (enemyNo + 1));
             character.exp += earnedXp;
         }
             
@@ -376,6 +339,49 @@ public class Arena : MonoBehaviour
         noHpWarning.SetActive(false);        
     }
 
+
+
+    /*
+    public enum EnemyType
+    {
+        Enemy1 = 1,
+        Enemy2 = 2,
+        Enemy3 = 3,
+        Enemy4 = 4
+    }
+
+
+    public void Attack(int enemyNumber)
+    {
+        EnemyType enemyType = (EnemyType)enemyNumber;
+        enemyNo = (int)enemyType;
+        SetEnemyStats(enemyType);
+        Fight();
+    }
+    private void SetEnemyStats(EnemyType enemyType)
+    {
+        switch (enemyType)
+        {
+            case EnemyType.Enemy1:
+                SetEnemyAttributes(2, 5, 50, 80, 1, 3);
+                break;
+                
+            case EnemyType.Enemy2:
+                SetEnemyAttributes(8, 12, 150, 200, 5, 7);
+                break;
+            
+            case EnemyType.Enemy3:
+                SetEnemyAttributes(30,40,380,420,15,20);
+                break;
+
+            case EnemyType.Enemy4:
+                SetEnemyAttributes(70,90,540,780,30,40);
+                break;
+        }
+    }
+
+
+    */
     /*
  public void Attack1()
  {
