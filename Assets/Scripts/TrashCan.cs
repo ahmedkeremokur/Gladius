@@ -26,4 +26,5 @@ public class TrashCan : MonoBehaviour,
 
         }
     }
+
 }
