@@ -1,4 +1,4 @@
-This is an unfinished 2D RPG Game. I'm still working on slowly but take a look:
+I am currently developing a 2D RPG game inspired by "Gladiatus" and "Bitefight." While I'm still in the early stages of my game development journey, I've taken on the challenge of creating as much as I can on my own. Although I've used some pre-made assets, such as backgrounds and gladiator images, my goal is to eventually craft these elements myself as the game evolves. This project has been a great learning experience, particularly in developing an inventory system and calculating damage values based on the stats of two different characters. It's a journey of growth, and I’m eager to see where it takes me.
 
 ![gladiusss](https://github.com/user-attachments/assets/92a751b7-bc5c-4a4f-af21-a6bc1381a9cd)
 ![gladiusss2](https://github.com/user-attachments/assets/fc18a25b-584e-477c-9645-89cde8781851)
