@@ -38,7 +38,11 @@ public class Arena : MonoBehaviour
         ClearFightLog();
 
         GameObject noHpWarning = GameObject.Find("No Hp 4 Arena");
-        noHpWarning.SetActive(false);
+        
+        if ( noHpWarning != null)
+        {
+            noHpWarning.SetActive(false);
+        }     
     }
 
     
