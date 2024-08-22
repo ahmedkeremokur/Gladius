@@ -16,6 +16,7 @@ public class Character : MonoBehaviour
     public int str = 1, vit = 1, dex = 1, agi = 1, charisma = 1, intelligence = 1, lvl = 1;
     private int costStr, costVit, costDex, costAgi, costCharisma, costIntelligence;
 
+    public int isWorking; //0 = false, 1 = true
 
     public TextMeshProUGUI hpText, attackText, defText, expText, lvlText;
     public TextMeshProUGUI strText, vitText, dexText, agiText, charismaText, intelligenceText;
@@ -198,6 +199,7 @@ public class Character : MonoBehaviour
         UpdateCharacter();
         PlayerPrefs.SetInt("attack", attack);
         PlayerPrefs.SetInt("def", def);
+        PlayerPrefs.SetInt("isWorking", isWorking);
     }
 
     public void LoadCharacter()
@@ -223,6 +225,8 @@ public class Character : MonoBehaviour
         if (hp > maxHp)
             hp = maxHp;
         Debug.Log("hp / maxhp: " + hp + "/" + maxHp);
+
+        PlayerPrefs.SetInt("isWorking", isWorking);
     }
 
     public void ResetStats()
@@ -235,64 +239,4 @@ public class Character : MonoBehaviour
     {
         SaveCharacter();
     }
-
-
-    /*
-    public void TrainStr()
-    {
-        str++;
-        costStr = str * str;
-        attack += str;       
-        controller.gold -= costStr;
-
-        UpdateCharacter();
-        UpdateCosts();
-        UpdateStatUI();              
-    }
-    public void TrainVit()
-    {
-        vit++;
-        costVit = vit * vit;
-        hp += 2;
-        maxHp += 2;
-        controller.gold += costVit;
-
-        UpdateCharacter();
-        UpdateCosts();
-        UpdateStatUI();
-    }
-    public void TrainDex()
-    {
-        dex++;
-        costDex = dex * dex;
-        UpdateCosts();
-        UpdateStatUI(); 
-        controller.gold -= costDex;
-
-    }
-    public void TrainAgi()
-    {
-        agi++;
-        costAgi = agi * agi;
-        UpdateCosts();
-        UpdateStatUI();
-        controller.gold -= costAgi;
-    }
-    public void TrainCharisma()
-    {
-        charisma++;
-        costCharisma = charisma * charisma;
-        UpdateCosts();
-        UpdateStatUI();
-        controller.gold -= costCharisma;
-    }
-    public void TrainIntelligence()
-    {
-        intelligence++;
-        costIntelligence = intelligence * intelligence;
-        UpdateCosts();
-        UpdateStatUI();
-        controller.gold -= costIntelligence;
-    }
-    */
 }
