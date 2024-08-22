@@ -6,7 +6,7 @@ using TMPro;
 
 public class Controller : MonoBehaviour
 {
-    public GameObject character, charmarkt, market, trainingfield, arena, job;
+    public GameObject character, charmarkt, market, trainingfield, arena, job, isWorkingWarning;
 
     public Button btnChar, btnMarket, btnTraining, btnArena, btnJob;
 
@@ -23,6 +23,8 @@ public class Controller : MonoBehaviour
                               * 4: Job */
 
 
+    public Character charr;
+
 
 
     private void Start()
@@ -30,6 +32,15 @@ public class Controller : MonoBehaviour
         GoCharacter();
         gold = PlayerPrefs.GetInt("gold");
 
+        if (isWorkingWarning == null )
+        {
+            GameObject isWorkingWarning = GameObject.Find("isWorking Warning");
+            Debug.LogWarning("isWorkingWarning was null.");
+        }
+
+        charr = FindObjectOfType<Character>();
+
+        isWorkingWarning.SetActive(false);
     }
 
     private void Update()
@@ -50,6 +61,20 @@ public class Controller : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void IsWorkingWarningOpenClose()
+    {
+        if (charr.isWorking == 0)
+        {
+            charr.isWorking = 1;
+            isWorkingWarning.SetActive(true);
+        }
+        else
+        {
+            charr.isWorking = 0;
+            isWorkingWarning.SetActive(false);
+        }
     }
      
     //----- 4 Menu -----//
