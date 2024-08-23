@@ -97,154 +97,166 @@ public class Arena : MonoBehaviour
 
     private void Fight()
     {
-        ClearFightLog();
+        if (character.isWorking == 0)
+        {
+            ClearFightLog();
 
-        int characterInitialHp = character.hp;
-        int enemyInitialHp = enemyHp;
+            int characterInitialHp = character.hp;
+            int enemyInitialHp = enemyHp;
 
-        int characterDamage = CalculateDamage(character.attack, enemyDef, character.str);
-        int enemyDamage = CalculateDamage(enemyAttack, character.def, enemyStr);
-        float characterCritChance = CalculateCritChance(character.dex, enemyAgi);
-        float enemyCritChance = CalculateCritChance(enemyDex, character.agi);
-        float characterDoubleChance = CalculateDoubleChance(character.charisma, enemyInt);
-        float enemyDoubleChance = CalculateDoubleChance(enemyChar, character.intelligence);
+            int characterDamage = CalculateDamage(character.attack, enemyDef, character.str);
+            int enemyDamage = CalculateDamage(enemyAttack, character.def, enemyStr);
+            float characterCritChance = CalculateCritChance(character.dex, enemyAgi);
+            float enemyCritChance = CalculateCritChance(enemyDex, character.agi);
+            float characterDoubleChance = CalculateDoubleChance(character.charisma, enemyInt);
+            float enemyDoubleChance = CalculateDoubleChance(enemyChar, character.intelligence);
 
-        Debug.Log($"Starting Fight: Character HP = {character.hp}, Enemy HP = {enemyHp}, Character Damage = {characterDamage}, Enemy Damage = {enemyDamage}");
+            Debug.Log($"Starting Fight: Character HP = {character.hp}, Enemy HP = {enemyHp}, Character Damage = {characterDamage}, Enemy Damage = {enemyDamage}");
 
 
             for (int i = 0; i < 3; i++)     //Round 1-2-3
             {
-            StringBuilder currentRoundLog = i == 0 ? round1Log : i == 1 ? round2Log : round3Log;
+                StringBuilder currentRoundLog = i == 0 ? round1Log : i == 1 ? round2Log : round3Log;
 
-            currentRoundLog.AppendLine($"Round {i + 1}:");
-            currentRoundLog.AppendLine($"Character HP: {character.hp}");
-            currentRoundLog.AppendLine($"Enemy HP: {enemyHp}");
+                currentRoundLog.AppendLine($"Round {i + 1}:");
+                currentRoundLog.AppendLine($"Character HP: {character.hp}");
+                currentRoundLog.AppendLine($"Enemy HP: {enemyHp}");
 
-            //Character attacks
-            int critRandom = Random.Range(0, 100);
-            int doubleRandom = Random.Range(0, 100);
-            Debug.Log($"critRandom: {critRandom}, character crit chance: {characterCritChance}");
+                //--------------Character attacks-----------
+                int critRandom = Random.Range(0, 100);
+                int doubleRandom = Random.Range(0, 100);
+                Debug.Log($"critRandom: {critRandom}, character crit chance: {characterCritChance}");
 
-            
-            if (characterDoubleChance * 100 >= doubleRandom)                    //if double attack
-            {
-                currentRoundLog.AppendLine("Double Attacks: Character");
-                for (int j = 0; j < 2; j++)
+
+                if (characterDoubleChance * 100 >= doubleRandom)                    //if double attack
                 {
-                    if (characterCritChance * 100 >= critRandom)                //if critical hit in double attack
+                    currentRoundLog.AppendLine("Double Attacks: Character");
+                    for (int j = 0; j < 2; j++)
+                    {
+                        if (characterCritChance * 100 >= critRandom)                //if critical hit in double attack
+                        {
+                            enemyHp -= characterDamage * 2;
+                            currentRoundLog.AppendLine("Critical Attacks: Character");
+                            Debug.Log("You made a Crit Damage!!");
+                        }
+                        else                                                        //no critical in double
+                        {
+                            enemyHp -= characterDamage;
+                            Debug.Log("You couldn't made a Crit Damage ");
+                        }
+                        Debug.Log("Double Attack turn:" + j);
+                    }
+                }       //Character Double Attack
+
+                else if (characterDoubleChance * 100 < doubleRandom)                 //No double attack
+                {
+                    if (characterCritChance * 100 >= critRandom)                    //if critical in no double
                     {
                         enemyHp -= characterDamage * 2;
                         currentRoundLog.AppendLine("Critical Attacks: Character");
                         Debug.Log("You made a Crit Damage!!");
                     }
-                    else                                                        //no critical in double
+                    else                                                            //no critical in no double
                     {
                         enemyHp -= characterDamage;
                         Debug.Log("You couldn't made a Crit Damage ");
                     }
-                    Debug.Log("Double Attack turn:" + j);
-                }
-            }
+                } //Character Single Attack
 
-            else if(characterDoubleChance * 100 < doubleRandom)                 //No double attack
-            {
-                if (characterCritChance * 100 >= critRandom)                    //if critical in no double
+                currentRoundLog.AppendLine($"Character Attack, damage: {characterDamage}, Enemy HP: {enemyHp}");
+
+                if (enemyHp <= 0)
                 {
-                    enemyHp -= characterDamage * 2;
-                    currentRoundLog.AppendLine("Critical Attacks: Character");
-                    Debug.Log("You made a Crit Damage!!");
-                }
-                else                                                            //no critical in no double
+                    currentRoundLog.AppendLine("Character Won this round!");
+                    DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
+                    UpdateFightLog();
+
+                    arenaResultBool = true;
+                    ArenaResult();
+                    Debug.Log("Enemy defeated, Character wins");
+                    return;
+                }   //Win
+
+
+
+                //---------Enemy attacks----------
+
+                int critRandomEnemy = Random.Range(0, 100);
+                int doubleRandomEnemy = Random.Range(0, 100);
+                Debug.Log($"critRandomEnemy: {critRandomEnemy}, enemy crit chance: {enemyCritChance}");
+
+                if (enemyDoubleChance * 100 >= doubleRandomEnemy)                            //if double attack
                 {
-                    enemyHp -= characterDamage;
-                    Debug.Log("You couldn't made a Crit Damage ");
-                }
-            }
+                    currentRoundLog.AppendLine("Double Attacks: Enemy");
 
-            currentRoundLog.AppendLine($"Character Attack, damage: {characterDamage}, Enemy HP: {enemyHp}");
+                    for (int j = 0; j < 2; j++)
+                    {
+                        if (enemyCritChance * 100 >= critRandomEnemy)                       //if critical hit
+                        {
+                            character.hp -= enemyDamage * 2;
+                            currentRoundLog.AppendLine("Critical Attacks: Enemy");
+                            Debug.Log("You made a Crit Damage!!");
+                        }
+                        else                                                                //No critical in double     
+                        {
+                            character.hp -= enemyDamage;
+                            Debug.Log("You couldn't made a Crit Damage ");
+                        }
+                        Debug.LogError("Double Attack turn:" + j);
+                    }
+                }       //Enemy Double Attack
 
-            if (enemyHp <= 0)
-            {
-                currentRoundLog.AppendLine("Character Won this round!");
-                DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
-                UpdateFightLog();
-
-                arenaResultBool = true;
-                ArenaResult();
-                Debug.Log("Enemy defeated, Character wins");
-                return;
-            }
-
-
-
-            //Enemy attacks
-
-            int critRandomEnemy = Random.Range(0, 100);
-            int doubleRandomEnemy = Random.Range(0, 100);
-            Debug.Log($"critRandomEnemy: {critRandomEnemy}, enemy crit chance: {enemyCritChance}");
-
-            if (enemyDoubleChance * 100 >= doubleRandomEnemy)                            //if double attack
-            {
-                currentRoundLog.AppendLine("Double Attacks: Enemy");
-
-                for (int j = 0; j < 2; j++)
+                else if (enemyDoubleChance * 100 < doubleRandomEnemy)                       //No double attack
                 {
-                    if (enemyCritChance * 100 >= critRandomEnemy)                       //if critical hit
+                    if (enemyCritChance * 100 >= critRandomEnemy)                           //if critical in no double
                     {
                         character.hp -= enemyDamage * 2;
                         currentRoundLog.AppendLine("Critical Attacks: Enemy");
                         Debug.Log("You made a Crit Damage!!");
                     }
-                    else                                                                //No critical in double     
+                    else                                                                    //no critical in no double
                     {
                         character.hp -= enemyDamage;
                         Debug.Log("You couldn't made a Crit Damage ");
                     }
-                    Debug.LogError("Double Attack turn:" + j);
-                }
-            }
+                } //Enemy Single Attack
 
-            else if (enemyDoubleChance * 100 < doubleRandomEnemy)                       //No double attack
-            {
-                if (enemyCritChance * 100 >= critRandomEnemy)                           //if critical in no double
+                currentRoundLog.AppendLine($"Enemy Attack, damage: {enemyDamage}, Character HP: {character.hp}");
+
+                if (character.hp <= 0)
                 {
-                    character.hp -= enemyDamage * 2;
-                    currentRoundLog.AppendLine("Critical Attacks: Enemy");
-                    Debug.Log("You made a Crit Damage!!");
-                }
-                else                                                                    //no critical in no double
-                {
-                    character.hp -= enemyDamage;
-                    Debug.Log("You couldn't made a Crit Damage ");
-                }
-            }
+                    currentRoundLog.AppendLine("Enemy Won this round!");
+                    DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
+                    UpdateFightLog();
+                    arenaResultBool = false;
+                    ArenaResult();
+                    Debug.Log("Character defeated, Enemy wins");
+                    character.hp = 0;
+                    return;
+                }       //Defeat
 
-            currentRoundLog.AppendLine($"Enemy Attack, damage: {enemyDamage}, Character HP: {character.hp}");
+                currentRoundLog.AppendLine("---- Round End ----\n");
+                Debug.Log("Character Hp:" + character.hp + " / Enemy Hp: " + enemyHp);
 
-            if (character.hp <= 0)
-            {
-                currentRoundLog.AppendLine("Enemy Won this round!");
-                DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
-                UpdateFightLog();
-                arenaResultBool = false;
-                ArenaResult();
-                Debug.Log("Character defeated, Enemy wins");
-                character.hp = 0;
-                return;
-            }
+            }   //Fight is here. For 3 rounds
 
-            currentRoundLog.AppendLine("---- Round End ----\n");
-            Debug.Log("Character Hp:" + character.hp + " / Enemy Hp: " + enemyHp);
+            if (character.hp >= enemyHp) arenaResultBool = true;
+            else arenaResultBool = false;
+            ArenaResult();
 
-            }
-
-        if (character.hp >= enemyHp) arenaResultBool = true;
-        else arenaResultBool = false;
-        ArenaResult();
-
-        character.UpdateStatUI();
-        DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
-        UpdateFightLog();
+            character.UpdateStatUI();
+            DisplayFightResult(characterInitialHp, character.hp, enemyInitialHp, enemyHp);
+            UpdateFightLog();
+        }   //If you are not working Attack
+        else if (character.isWorking == 1)
+        {
+            controller.IsWorkingWarningOpenClose();
+        }   //You are working. Warn player.
+        else
+        {
+            Debug.LogError("Something is broken. Error: character.isWorking is not 0 or 1. Arena class, Fight.");
+        }   //Check the code. if it is not 0 or 1 Warn the magnificent ME!!
+        
     }
 
     private int CalculateDamage(int attack, int defence, int strength)
