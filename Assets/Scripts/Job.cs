@@ -10,6 +10,7 @@ public class Job : MonoBehaviour
     public Image displayImage;
 
     public Character character;
+    public Controller controller;
     public int isWorking; //Comes from Character script. 0 = false, 1 = true
 
     private int jobTime, jobGold, jobExp, jobType; //for Working
@@ -49,9 +50,9 @@ public class Job : MonoBehaviour
             switch (jobType)
             {
                 case 0: //Farmer
-                    jobTime = 0;
-                    jobGold = 0;
-                    jobExp = 0;
+                    jobTime = 300;
+                    jobGold = 100;
+                    jobExp = 20;
                     break;
                 case 1: //Miner
                     jobTime = 0;
@@ -75,6 +76,10 @@ public class Job : MonoBehaviour
                     break;
             }
 
+            StartCoroutine(WorkCoroutine(jobTime, jobGold, jobExp));
+
+            character.UpdateStatUI();
+
         }
         else if (isWorking == 1)
         {
@@ -84,6 +89,23 @@ public class Job : MonoBehaviour
         {
             Debug.LogError("Why the fuck isWorking is " + isWorking);   //Control the isWorking int
         }
+    }
+
+    private IEnumerator WorkCoroutine(int time, int gold, int exp)
+    {
+        yield return new WaitForSeconds(time);      //Waiting...
+
+        //Add gold and exp
+        controller.gold += gold;
+        character.exp += exp;
+
+        character.UpdateStatUI();
+
+        //Reset working status
+        isWorking = 0;
+        character.isWorking = 0;
+
+        Debug.Log("Job completed!");
     }
 
  
