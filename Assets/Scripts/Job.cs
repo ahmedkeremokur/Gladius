@@ -15,7 +15,8 @@ public class Job : MonoBehaviour
 
     private int jobTime, jobGold, jobExp, jobType; //for Working
 
-    
+    public GameObject workBtn;
+
     /*public enum JobType
     {
         Farmer = 0,
@@ -30,6 +31,18 @@ public class Job : MonoBehaviour
     {
         character = FindObjectOfType<Character>();
         isWorking = character.isWorking;
+
+        if(workBtn = null)
+        {
+            workBtn = GameObject.Find("Work Button");
+        }
+        if(workBtn != null)
+        {
+            if (character.isWorking == 1)
+                workBtn.SetActive(false);
+            else
+                workBtn.SetActive(true);
+        }       
     }
 
 
@@ -45,34 +58,34 @@ public class Job : MonoBehaviour
     {
         if (isWorking == 0)
         {
-            character.isWorking = 1; isWorking = character.isWorking; 
+            character.isWorking = 1; isWorking = character.isWorking; workBtn.SetActive(false);
 
             switch (jobType)
             {
                 case 0: //Farmer
-                    jobTime = 300;
-                    jobGold = 100;
-                    jobExp = 20;
+                    jobTime = 300;      //5 minute
+                    jobGold = 20;
+                    jobExp = 5;
                     break;
                 case 1: //Miner
-                    jobTime = 0;
-                    jobGold = 0;
-                    jobExp = 0;
+                    jobTime = 1800;     //30 minute
+                    jobGold = 150;
+                    jobExp = 40;
                     break;
                 case 2: //Blacksmith
-                    jobTime = 0;
-                    jobGold = 0;
-                    jobExp = 0;
+                    jobTime = 7200;     //2 hour
+                    jobGold = 750;
+                    jobExp = 200;
                     break;
                 case 3: //Guardian
-                    jobTime = 0;
-                    jobGold = 0;
-                    jobExp = 0;
+                    jobTime = 21600;        //6 hour
+                    jobGold = 2500;
+                    jobExp = 750;
                     break;
                 case 4: //Merchant
-                    jobTime = 0;
-                    jobGold = 0;
-                    jobExp = 0;
+                    jobTime = 43200;        //12 hour
+                    jobGold = 8000;
+                    jobExp = 2000;
                     break;
             }
 
@@ -104,6 +117,8 @@ public class Job : MonoBehaviour
         //Reset working status
         isWorking = 0;
         character.isWorking = 0;
+        workBtn.SetActive(true);
+
 
         Debug.Log("Job completed!");
     }
