@@ -13,7 +13,7 @@ public class Controller : MonoBehaviour
     public GameObject armorSmith, weaponSmith, potionSeller;    //Shop
     public Button btnArmor, btnWeapon, btnPot;                  //Shop
 
-    public TMP_Text goldText;
+    public TMP_Text goldText, jobLvlWarning;
     public int gold;
 
     public int whereAreYou;  /* 0: Character
@@ -29,6 +29,8 @@ public class Controller : MonoBehaviour
 
     private void Start()
     {
+        charr = FindObjectOfType<Character>();
+
         GoCharacter();
         gold = PlayerPrefs.GetInt("gold");
 
@@ -38,9 +40,7 @@ public class Controller : MonoBehaviour
             Debug.LogWarning("isWorkingWarning was null.");
         }
 
-        charr = FindObjectOfType<Character>();
-
-        isWorkingWarning.SetActive(false);
+        isWorkingWarning.SetActive(false);       
     }
 
     private void Update()
@@ -93,7 +93,18 @@ public class Controller : MonoBehaviour
         btnMarket.interactable = true;
         btnTraining.interactable = true;
         btnArena.interactable = true;
-        btnJob.interactable = true;
+        if(charr.lvl >= 5)
+        {
+            btnJob.interactable = true;
+            jobLvlWarning.text = "";
+        }
+            
+        else
+        {
+            btnJob.interactable = false;
+            jobLvlWarning.text = "After Lvl 5";
+        }
+            
     }
     public void GoMarket()
     {
@@ -109,7 +120,17 @@ public class Controller : MonoBehaviour
         btnMarket.interactable = false;
         btnTraining.interactable = true;
         btnArena.interactable = true;
-        btnJob.interactable = true;
+        if (charr.lvl >= 5)
+        {
+            btnJob.interactable = true;
+            jobLvlWarning.text = "";
+        }
+
+        else
+        {
+            btnJob.interactable = false;
+            jobLvlWarning.text = "After Lvl 5";
+        }
 
         WeaponSmith();
 
@@ -127,7 +148,17 @@ public class Controller : MonoBehaviour
         btnMarket.interactable = true;
         btnTraining.interactable = false;
         btnArena.interactable = true;
-        btnJob.interactable = true;
+        if (charr.lvl >= 5)
+        {
+            btnJob.interactable = true;
+            jobLvlWarning.text = "";
+        }
+
+        else
+        {
+            btnJob.interactable = false;
+            jobLvlWarning.text = "After Lvl 5";
+        }
     }
 
     public void GoArena()
@@ -142,7 +173,17 @@ public class Controller : MonoBehaviour
         btnMarket.interactable = true;
         btnTraining.interactable = true;
         btnArena.interactable = false;
-        btnJob.interactable = true;
+        if (charr.lvl >= 5)
+        {
+            btnJob.interactable = true;
+            jobLvlWarning.text = "";
+        }
+
+        else
+        {
+            btnJob.interactable = false;
+            jobLvlWarning.text = "After Lvl 5";
+        }
     }
 
     public void GoJob()
@@ -158,6 +199,8 @@ public class Controller : MonoBehaviour
         btnTraining.interactable = true;
         btnArena.interactable = true;
         btnJob.interactable = false;
+
+        jobLvlWarning.text = "";
     }
 
     
