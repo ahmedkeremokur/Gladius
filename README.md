@@ -4,6 +4,7 @@ I am currently developing a 2D RPG game inspired by "Gladiatus" and "Bitefight."
 ![gladiusss2](https://github.com/user-attachments/assets/fc18a25b-584e-477c-9645-89cde8781851)
 ![gladiusss3](https://github.com/user-attachments/assets/dee2ae2b-0215-43ac-935e-5b527c1cd9b8)
 ![gladius4](https://github.com/user-attachments/assets/40e1dd32-1f75-4090-bf6c-cf92660167ce)
+![gladius5](https://github.com/user-attachments/assets/9e6a3b81-d519-44c7-9c90-38784e9682b2)
 
 
 
