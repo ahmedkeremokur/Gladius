@@ -16,7 +16,7 @@ public class Character : MonoBehaviour
     public int str = 1, vit = 1, dex = 1, agi = 1, charisma = 1, intelligence = 1, lvl = 1;
     private int costStr, costVit, costDex, costAgi, costCharisma, costIntelligence;
 
-    public int isWorking; //0 = false, 1 = true
+    public int isWorking, jobTime; //0 = false, 1 = true
 
     public TextMeshProUGUI hpText, attackText, defText, expText, lvlText;
     public TextMeshProUGUI strText, vitText, dexText, agiText, charismaText, intelligenceText;
@@ -25,8 +25,7 @@ public class Character : MonoBehaviour
     public Image hpBar, expBar;
 
 
-
-    void Start()
+    void Awake()        // Controller codes comes first if you use void start();
     {
         controller = GameObject.FindGameObjectWithTag("Controller").GetComponent<Controller>();
         charslot = FindObjectOfType<Charslot>();
@@ -35,8 +34,6 @@ public class Character : MonoBehaviour
         UpdateCosts();
         UpdateStatUI();
     }
-
-
 
     public Character()
     {
