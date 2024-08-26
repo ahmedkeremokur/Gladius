@@ -156,6 +156,8 @@ public class Character : MonoBehaviour
             exp -= maxExp;
             lvl++;
             maxExp = (lvl * lvl * 100);
+
+            hp = maxHp;     //refill character hp when you lvl up
         }
         strText.text = ("Strength = " + str);
         vitText.text = ("Vitality = " + vit);
