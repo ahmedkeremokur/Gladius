@@ -6,7 +6,7 @@ using TMPro;
 
 public class Controller : MonoBehaviour
 {
-    public GameObject character, charmarkt, market, trainingfield, arena, job, isWorkingWarning;
+    public GameObject character, charmarkt, market, trainingfield, arena, job, isWorkingWarning, workingTimer;
 
     public Button btnChar, btnMarket, btnTraining, btnArena, btnJob;
 
@@ -24,14 +24,15 @@ public class Controller : MonoBehaviour
 
 
     public Character charr;
+    public Job jobScript;
 
 
 
     private void Start()
     {
         charr = FindObjectOfType<Character>();
-
-        GoCharacter();
+        jobScript = FindObjectOfType<Job>();
+      
         gold = PlayerPrefs.GetInt("gold");
 
         if (isWorkingWarning == null )
@@ -40,10 +41,12 @@ public class Controller : MonoBehaviour
             Debug.LogWarning("isWorkingWarning was null.");
         }
 
-        isWorkingWarning.SetActive(false);       
+        isWorkingWarning.SetActive(false);
+        GoCharacter();
+        WorkingTimer();
     }
 
-    private void Update()
+    private void Update()       //It needs to be edited for optimization. We need to move goldText to another void.
     {
         goldText.text = gold.ToString();
 
@@ -93,6 +96,7 @@ public class Controller : MonoBehaviour
         btnMarket.interactable = true;
         btnTraining.interactable = true;
         btnArena.interactable = true;
+
         if(charr.lvl >= 5)
         {
             btnJob.interactable = true;
@@ -201,6 +205,19 @@ public class Controller : MonoBehaviour
         btnJob.interactable = false;
 
         jobLvlWarning.text = "";
+
+        jobScript.UpdateJobSite();
+    }
+
+    public void WorkingTimer()
+    {
+        if (charr.isWorking == 1)
+        {
+            workingTimer.SetActive(true);
+            workingTimer.GetComponentInChildren<TextMeshProUGUI>().text = ("Character is working." + charr.jobTime);
+        } 
+        else
+            workingTimer.SetActive(false);
     }
 
     
