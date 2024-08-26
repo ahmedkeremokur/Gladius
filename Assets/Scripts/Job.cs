@@ -13,36 +13,37 @@ public class Job : MonoBehaviour
     public Controller controller;
     public int isWorking; //Comes from Character script. 0 = false, 1 = true
 
-    private int jobTime, jobGold, jobExp, jobType; //for Working
+    private int jobGold, jobExp, jobType; //for Working
 
-    public GameObject workBtn;
+    public Button workBtn;
 
     /*public enum JobType
     {
-        Farmer = 0,
-        Miner = 1,
-        Blacksmith = 2,
-        Merchant = 3,
-        Guardian = 4
+        Farmer = 1,
+        Miner = 2,
+        Blacksmith = 3,
+        Merchant = 4,
+        Guardian = 5
 
     }*/
 
     void Start()
     {
         character = FindObjectOfType<Character>();
+        controller = FindObjectOfType<Controller>();
         isWorking = character.isWorking;
 
-        if(workBtn = null)
+        /*if(workBtn = null)
         {
-            workBtn = GameObject.Find("Work Button");
+            workBtn = GameObject.Find("Work Button").GetComponent<Button>();
         }
         if(workBtn != null)
         {
             if (character.isWorking == 1)
-                workBtn.SetActive(false);
+                workBtn.interactable = false;
             else
-                workBtn.SetActive(true);
-        }       
+                workBtn.interactable = true;
+        } */      
     }
 
 
@@ -57,43 +58,56 @@ public class Job : MonoBehaviour
     public void SetJobType(int type)
     {
         jobType = type;
+
+        /*if (workBtn = null)
+        {
+            workBtn = GameObject.Find("Work Button").GetComponent<Button>();
+        }*/
+        if (workBtn != null)
+        {
+            if (character.isWorking == 1)
+                workBtn.interactable = false;
+            else
+                workBtn.interactable = true;
+        }
     }
     public void Work()
     {
         if (isWorking == 0)
         {
-            character.isWorking = 1; isWorking = character.isWorking; workBtn.SetActive(false);
+            character.isWorking = 1; isWorking = character.isWorking; workBtn.interactable = false;
 
             switch (jobType)
             {
-                case 0: //Farmer
-                    jobTime = 300;      //5 minute
+                //case 0 = no job selected
+                case 1: //Farmer
+                    character.jobTime = 300;      //5 minute
                     jobGold = 20;
                     jobExp = 5;
                     break;
-                case 1: //Miner
-                    jobTime = 1800;     //30 minute
+                case 2: //Miner
+                    character.jobTime = 1800;     //30 minute
                     jobGold = 150;
                     jobExp = 40;
                     break;
-                case 2: //Blacksmith
-                    jobTime = 7200;     //2 hour
+                case 3: //Blacksmith
+                    character.jobTime = 7200;     //2 hour
                     jobGold = 750;
                     jobExp = 200;
                     break;
-                case 3: //Guardian
-                    jobTime = 21600;        //6 hour
+                case 4: //Guardian
+                    character.jobTime = 21600;        //6 hour
                     jobGold = 2500;
                     jobExp = 750;
                     break;
-                case 4: //Merchant
-                    jobTime = 43200;        //12 hour
+                case 5: //Merchant
+                    character.jobTime = 43200;        //12 hour
                     jobGold = 8000;
                     jobExp = 2000;
                     break;
             }
 
-            StartCoroutine(WorkCoroutine(jobTime, jobGold, jobExp));
+            StartCoroutine(WorkCoroutine(character.jobTime, jobGold, jobExp));
 
             character.UpdateStatUI();
 
@@ -121,11 +135,29 @@ public class Job : MonoBehaviour
         //Reset working status
         isWorking = 0;
         character.isWorking = 0;
-        workBtn.SetActive(true);
+        workBtn.interactable = true;
 
 
         Debug.Log("Job completed!");
     }
 
+    public void UpdateJobSite()
+    {
+        if (isWorking == 0)
+        {
+            if(jobType == 0)
+            {
+                workBtn.interactable = false;
+            }
+            else
+            {
+                workBtn.interactable = true;
+            }
+        }
+        else if (isWorking == 1)
+        {
+            workBtn.interactable = false;
+        }
+    }
  
 }
