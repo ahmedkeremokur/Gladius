@@ -54,6 +54,10 @@ public class Job : MonoBehaviour
         }
     }
 
+    public void SetJobType(int type)
+    {
+        jobType = type;
+    }
     public void Work()
     {
         if (isWorking == 0)
