@@ -1583,7 +1583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Job 4
+  m_text: Guardian
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4449,7 +4449,7 @@ GameObject:
   - component: {fileID: 347883141}
   - component: {fileID: 347883140}
   m_Layer: 5
-  m_Name: Job 1
+  m_Name: Job Farmer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4463,17 +4463,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347883138}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9.943141}
+  m_LocalPosition: {x: 0, y: 0, z: 12.275781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 476215797}
-  m_Father: {fileID: 1790363103}
+  m_Father: {fileID: 492163877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -575.877, y: -878.7102}
-  m_SizeDelta: {x: 220, y: 200}
+  m_AnchoredPosition: {x: -640, y: -900}
+  m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &347883140
 MonoBehaviour:
@@ -4518,7 +4518,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 347883141}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1790363104}
+        m_TargetAssemblyTypeName: Job, Assembly-CSharp
+        m_MethodName: SetJobType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &347883141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6188,7 +6200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Job 1
+  m_text: Farmer
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6399,6 +6411,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 479578556}
   m_CullTransparentMesh: 1
+--- !u!1 &492163876
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 492163877}
+  m_Layer: 0
+  m_Name: Job Type
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &492163877
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492163876}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 771963691}
+  - {fileID: 1501560305}
+  - {fileID: 1057421825}
+  - {fileID: 1203839454}
+  - {fileID: 347883139}
+  m_Father: {fileID: 1790363103}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &497435354
 GameObject:
   m_ObjectHideFlags: 0
@@ -7325,7 +7373,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Job 3
+  m_text: Blacksmith
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8459,7 +8507,7 @@ GameObject:
   - component: {fileID: 771963693}
   - component: {fileID: 771963692}
   m_Layer: 5
-  m_Name: Job 5
+  m_Name: Job Merchant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8473,17 +8521,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 771963690}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9.943141}
+  m_LocalPosition: {x: 0, y: 0, z: 12.275781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 927317837}
-  m_Father: {fileID: 1790363103}
+  m_Father: {fileID: 492163877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 304.12305, y: -878.7102}
-  m_SizeDelta: {x: 220, y: 200}
+  m_AnchoredPosition: {x: 360, y: -900}
+  m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &771963692
 MonoBehaviour:
@@ -8528,7 +8576,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 771963693}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1790363104}
+        m_TargetAssemblyTypeName: Job, Assembly-CSharp
+        m_MethodName: SetJobType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &771963693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9458,7 +9518,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Job 5
+  m_text: Merchant
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11493,7 +11553,7 @@ GameObject:
   - component: {fileID: 1057421827}
   - component: {fileID: 1057421826}
   m_Layer: 5
-  m_Name: Job 3
+  m_Name: Job Blacksmith
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11507,17 +11567,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1057421824}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9.943141}
+  m_LocalPosition: {x: 0, y: 0, z: 12.275781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 612360442}
-  m_Father: {fileID: 1790363103}
+  m_Father: {fileID: 492163877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -135.87701, y: -878.7102}
-  m_SizeDelta: {x: 220, y: 200}
+  m_AnchoredPosition: {x: -140, y: -900}
+  m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1057421826
 MonoBehaviour:
@@ -11562,7 +11622,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1057421827}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1790363104}
+        m_TargetAssemblyTypeName: Job, Assembly-CSharp
+        m_MethodName: SetJobType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1057421827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12530,7 +12602,7 @@ GameObject:
   - component: {fileID: 1203839456}
   - component: {fileID: 1203839455}
   m_Layer: 5
-  m_Name: Job 2
+  m_Name: Job Miner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12544,17 +12616,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203839453}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9.943141}
+  m_LocalPosition: {x: 0, y: 0, z: 12.275781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1643630703}
-  m_Father: {fileID: 1790363103}
+  m_Father: {fileID: 492163877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -355.877, y: -878.7102}
-  m_SizeDelta: {x: 220, y: 200}
+  m_AnchoredPosition: {x: -390, y: -900}
+  m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1203839455
 MonoBehaviour:
@@ -12599,7 +12671,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1203839456}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1790363104}
+        m_TargetAssemblyTypeName: Job, Assembly-CSharp
+        m_MethodName: SetJobType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1203839456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15555,7 +15639,7 @@ GameObject:
   - component: {fileID: 1501560307}
   - component: {fileID: 1501560306}
   m_Layer: 5
-  m_Name: Job 4
+  m_Name: Job Guardian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15569,17 +15653,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501560304}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9.943141}
+  m_LocalPosition: {x: 0, y: 0, z: 12.275781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 87777933}
-  m_Father: {fileID: 1790363103}
+  m_Father: {fileID: 492163877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 84.12305, y: -878.7102}
-  m_SizeDelta: {x: 220, y: 200}
+  m_AnchoredPosition: {x: 110, y: -900}
+  m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1501560306
 MonoBehaviour:
@@ -15624,7 +15708,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1501560307}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1790363104}
+        m_TargetAssemblyTypeName: Job, Assembly-CSharp
+        m_MethodName: SetJobType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1501560307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17657,7 +17753,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Job 2
+  m_text: Miner
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -19113,11 +19209,7 @@ Transform:
   m_Children:
   - {fileID: 167914507}
   - {fileID: 956607019}
-  - {fileID: 771963691}
-  - {fileID: 1501560305}
-  - {fileID: 1057421825}
-  - {fileID: 1203839454}
-  - {fileID: 347883139}
+  - {fileID: 492163877}
   - {fileID: 1743628789}
   m_Father: {fileID: 330014493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
