@@ -12248,7 +12248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1123848480
 Transform:
   m_ObjectHideFlags: 0
@@ -19406,7 +19406,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1790363103
 Transform:
   m_ObjectHideFlags: 0
@@ -19911,6 +19911,8 @@ MonoBehaviour:
   def: 0
   exp: 0
   maxExp: 0
+  weaponDamage: 0
+  armorArmor: 0
   str: 1
   vit: 1
   dex: 1
