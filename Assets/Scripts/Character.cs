@@ -55,24 +55,28 @@ public class Character : MonoBehaviour
     {
         weaponDamage = newWeaponDamage;
         UpdateCharacter();
+        UpdateStatUI();
     }
     
     public void SetArmorDefence(int newArmorDefence)
     {
         armorArmor = newArmorDefence;
         UpdateCharacter();
+        UpdateStatUI();
     }
 
     public void RemoveWeaponDamage(int removedWeaponDamage)
     {
         weaponDamage -= removedWeaponDamage;
         UpdateCharacter();
+        UpdateStatUI();
     }
 
     public void RemoveArmorDefence(int removedArmorDefence)
     {
         armorArmor -= removedArmorDefence;
         UpdateCharacter();
+        UpdateStatUI();
     }
     public void TrainStat(ref int stat, ref int cost, string statName)
     {
