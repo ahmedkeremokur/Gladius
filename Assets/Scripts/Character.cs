@@ -12,7 +12,7 @@ public class Character : MonoBehaviour
 
     public List<Charslot> charslots;
 
-    public int hp, maxHp, attack, def, exp, maxExp;
+    public int hp, maxHp, attack, def, exp, maxExp, weaponDamage, armorArmor;
     public int str = 1, vit = 1, dex = 1, agi = 1, charisma = 1, intelligence = 1, lvl = 1;
     private int costStr, costVit, costDex, costAgi, costCharisma, costIntelligence;
 
@@ -51,6 +51,29 @@ public class Character : MonoBehaviour
         intelligence = 1;
     }
 
+    public void SetWeaponDamage(int newWeaponDamage)
+    {
+        weaponDamage = newWeaponDamage;
+        UpdateCharacter();
+    }
+    
+    public void SetArmorDefence(int newArmorDefence)
+    {
+        armorArmor = newArmorDefence;
+        UpdateCharacter();
+    }
+
+    public void RemoveWeaponDamage(int removedWeaponDamage)
+    {
+        weaponDamage -= removedWeaponDamage;
+        UpdateCharacter();
+    }
+
+    public void RemoveArmorDefence(int removedArmorDefence)
+    {
+        armorArmor -= removedArmorDefence;
+        UpdateCharacter();
+    }
     public void TrainStat(ref int stat, ref int cost, string statName)
     {
 
@@ -78,7 +101,7 @@ public class Character : MonoBehaviour
     {
         TrainStat(ref str, ref costStr, "Str");
     }
-
+    
     public void TrainVit()
     {
         TrainStat(ref vit, ref costVit, "Vit");
@@ -133,17 +156,11 @@ public class Character : MonoBehaviour
 
     private void UpdateCharacter()
     {
-        attack = str;
-        foreach (var charslot in charslots)
-        {
-            attack += charslot.GetWeaponDamage();
-        }
+        attack = str + weaponDamage;
 
-        def = vit;
-        foreach (var charslot in charslots)
-        {
-            def += charslot.GetArmorDefence();
-        }
+        def = vit + armorArmor;
+
+        Debug.Log($"Weapon Damage: {weaponDamage}    Armor: {armorArmor}");
     }
 
     public void UpdateStatUI()
