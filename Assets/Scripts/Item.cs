@@ -54,11 +54,12 @@ public class Item //: MonoBehaviour
     {
         if(itemSprite == null)
         {
-            itemSprite = Resources.Load<Sprite>(itemImagePath);
+            if (!string.IsNullOrEmpty(itemImagePath))
+            {
+                itemSprite = Resources.Load<Sprite>(itemImagePath);
+            }
         }
-
         return itemSprite;
-        //return Resources.Load<Sprite>(itemImagePath);
     }
 
 }   
